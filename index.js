@@ -27,11 +27,18 @@ async function run() {
 
     const toyCollection = client.db("toys").collection("toy");
 
-    app.post('/addToys', async(req,res)=>{
-        const data = req.body;
-        const result = await toyCollection.insertOne(data)
-        res.send(result)
-    })
+    app.get("/allToys", async (req, res) => {
+      const data = req.body;
+      console.log(data);
+      const result = await toyCollection.find(data).toArray();
+      res.send(result);
+    });
+
+    app.post("/addToys", async (req, res) => {
+      const data = req.body;
+      const result = await toyCollection.insertOne(data);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
