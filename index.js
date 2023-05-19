@@ -33,6 +33,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/allToys/:text", async (req, res) => {
+      console.log(req.params.category);
+      const result = await toyCollection
+        .find({ subcategory: req.params.text })
+        .toArray();
+      res.send(result);
+    });
+
     app.get("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
@@ -60,7 +68,7 @@ async function run() {
     app.put("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const data = req.body;
-      console.log(data)
+      console.log(data);
       const filter = { _id: new ObjectId(id) };
 
       const updateToy = {
